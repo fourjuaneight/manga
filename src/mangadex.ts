@@ -3,7 +3,7 @@ import { Context } from 'hono';
 
 import { AuthorResponse, MangaResponse } from './typings';
 
-interface MangaData {
+export interface MangaData {
   title: string;
   description: string;
   author: string;
