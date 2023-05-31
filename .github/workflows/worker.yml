@@ -1,0 +1,49 @@
+name: Build and Deploy Worker
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  worker:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Use Node 16.19.1
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.19.1
+
+      - uses: pnpm/action-setup@v2.0.1
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 8
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Publish
+        run: npm run deploy
+        env:
+          ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
+          AUTH_KEY: ${{ secrets.AUTH_KEY }}
