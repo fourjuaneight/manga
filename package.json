@@ -1,0 +1,57 @@
+{
+  "name": "manga",
+  "version": "1.0.0",
+  "description": "Serverless function to query manga details from the Mangadex API.",
+  "main": "src/app.ts",
+  "private": true,
+  "scripts": {
+    "build": "esbuild --define:process.env.NODE_ENV=\\\"production\\\" src/app.ts --minify --bundle --format=esm --outfile=dist/worker.js",
+    "clean": "rm -rf dist",
+    "clean:node": "rm -rf node_modules",
+    "dev": "wrangler dev src/app.ts",
+    "deploy": "wrangler publish src/app.ts",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "lint": "eslint --fix \"src/**/*.ts\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fourjuaneight/manga.git"
+  },
+  "author": "Juan Villela",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fourjuaneight/manga/issues"
+  },
+  "homepage": "https://github.com/fourjuaneight/manga#readme",
+  "lint-staged": {
+    "*.ts": [
+      "npm run format",
+      "npm run lint"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20230518.0",
+    "@types/node": "^17.0.45",
+    "@typescript-eslint/eslint-plugin": "^5.3.0",
+    "@typescript-eslint/parser": "^5.3.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-prettier": "^4.0.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^11.2.6",
+    "pnpm": "^8.6.0",
+    "prettier": "^2.4.1",
+    "typescript": "^5.0.4",
+    "wrangler": "3.0.1"
+  },
+  "dependencies": {
+    "hono": "^3.2.3"
+  }
+}
