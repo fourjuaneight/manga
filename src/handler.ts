@@ -36,8 +36,8 @@ export const handleDetails = async (ctx: Context) => {
     }
 
     // https://mangadex.org/title/<ID>/<NAME>
-    const id = url.replace(/(https?:\/\/[^/]+\/title\/)([a-f0-9-]+)/g, '$1');
-    const data = await getDetails(ctx, id);
+    const id = url.replace(/https?:\/\/[^/]+\/title\/([a-f0-9-]+)\/?.*/g, '$1');
+    const data = await getDetails(ctx, id, url);
 
     ctx.status(200);
 

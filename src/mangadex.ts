@@ -10,6 +10,7 @@ export interface MangaData {
   year: number;
   status: string;
   cover: string;
+  url: string;
 }
 
 const API = 'https://api.mangadex.org';
@@ -32,11 +33,7 @@ export const getAuthor = async (ctx: Context, id: string): Promise<string> => {
       throw `[fetch]: ${request.status} - ${request.statusText}`;
     }
 
-    const {
-      data: { attributes: name },
-    } = response;
-
-    return name;
+    return response.data.attributes.name;
   } catch (error) {
     console.log(`[getAuthor] - ${error}`);
     throw `[getAuthor] - ${error}`;
@@ -45,7 +42,8 @@ export const getAuthor = async (ctx: Context, id: string): Promise<string> => {
 
 export const getDetails = async (
   ctx: Context,
-  id: string
+  id: string,
+  url: string
 ): Promise<MangaData> => {
   try {
     const request = await fetch(
@@ -60,10 +58,10 @@ export const getDetails = async (
 
     if (request.status !== 200) {
       console.log(
-        `[fetch]: ${request.status} - ${request.statusText}`,
+        `[fetch]: ${request.status} - ${request.statusText} (${id})`,
         response
       );
-      throw `[fetch]: ${request.status} - ${request.statusText}`;
+      throw `[fetch]: ${request.status} - ${request.statusText} (${id})`;
     }
 
     const {
@@ -80,6 +78,7 @@ export const getDetails = async (
       year: attributes.year,
       status: attributes.status,
       cover: `${ASSETS}/covers/${id}/${coverFile}`,
+      url,
     };
   } catch (error) {
     console.log(`[getDetails] - ${error}`);
