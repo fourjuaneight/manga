@@ -9,7 +9,7 @@
     "clean": "rm -rf dist",
     "clean:node": "rm -rf node_modules",
     "dev": "wrangler dev src/app.ts",
-    "deploy": "wrangler publish src/app.ts",
+    "deploy": "wrangler deploy src/app.ts",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint --fix \"src/**/*.ts\""
   },
