@@ -42,8 +42,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Publish
-        run: npm run deploy
-        env:
-          ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
-          AUTH_KEY: ${{ secrets.AUTH_KEY }}
+      - name: Deploy to Cloudflare Workers with Wrangler
+        uses: cloudflare/wrangler-action@2.0.0
+        with:
+          apiToken: ${{ secrets.ACCESS_KEY }}
