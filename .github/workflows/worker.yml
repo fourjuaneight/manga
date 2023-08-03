@@ -24,7 +24,8 @@ jobs:
         id: pnpm-install
         with:
           version: 8
-          run_install: false
+          run_install: |
+            - args: [--no-frozen-lockfile]
 
       - name: Get pnpm store directory
         id: pnpm-cache
@@ -38,9 +39,6 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-
-      - name: Install dependencies
-        run: pnpm install
 
       - name: Deploy to Cloudflare Workers with Wrangler
         uses: cloudflare/wrangler-action@2.0.0
