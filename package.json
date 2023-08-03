@@ -50,7 +50,7 @@
     "pnpm": "^8.6.8",
     "prettier": "^2.4.1",
     "typescript": "^5.0.4",
-    "wrangler": "3.0.1"
+    "wrangler": "3.1.1"
   },
   "dependencies": {
     "hono": "^3.2.3"
