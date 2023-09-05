@@ -21,17 +21,17 @@ export const getAuthor = async (ctx: Context, id: string): Promise<string> => {
     const request = await fetch(`${API}/author/${id}`, {
       headers: {
         'Content-Type': 'application/json',
+        'User-Agent': 'MangaDex-API/1.0',
       },
     });
-    const response: AuthorResponse = await request.json();
 
     if (request.status !== 200) {
-      console.log(
-        `[fetch]: ${request.status} - ${request.statusText}`,
-        response
-      );
-      throw `[fetch]: ${request.status} - ${request.statusText}`;
+      const errorResp = await request.text();
+
+      throw `[fetch]: ${request.status} - ${request.statusText} (${id}) - ${errorResp}`;
     }
+
+    const response: AuthorResponse = await request.json();
 
     return response.data.attributes.name;
   } catch (error) {
@@ -51,16 +51,15 @@ export const getDetails = async (
       {
         headers: {
           'Content-Type': 'application/json',
+          'User-Agent': 'MangaDex-API/1.0',
         },
       }
     );
 
     if (request.status !== 200) {
-      console.log(
-        `[fetch]: ${request.status} - ${request.statusText} (${id})`,
-        request
-      );
-      throw `[fetch]: ${request.status} - ${request.statusText} (${id})`;
+      const errorResp = await request.text();
+
+      throw `[fetch]: ${request.status} - ${request.statusText} (${id}) - ${errorResp}`;
     }
 
     const response: MangaResponse = await request.json();
