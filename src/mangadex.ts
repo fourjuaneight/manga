@@ -54,16 +54,16 @@ export const getDetails = async (
         },
       }
     );
-    const response: MangaResponse = await request.json();
 
     if (request.status !== 200) {
       console.log(
         `[fetch]: ${request.status} - ${request.statusText} (${id})`,
-        response
+        request
       );
       throw `[fetch]: ${request.status} - ${request.statusText} (${id})`;
     }
 
+    const response: MangaResponse = await request.json();
     const {
       data: { attributes, relationships },
     } = response;
